@@ -12,8 +12,8 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- checkout: self
-  persistCredentials: true
+- script: git config --global http.sslVerify false
+  displayName: 'Disable SSL verification (not recommended)'
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
