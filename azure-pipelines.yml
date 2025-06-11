@@ -6,7 +6,7 @@ pool: EMRSTGSERVER
 variables:
   buildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '6.x'
+  dotnetSdkVersion: '8.0.x'
   http_proxy: http://eproxy-emaar.goskope.com:8081
   https_proxy: http://eproxy-emaar.goskope.com:8081
   NODE_TLS_REJECT_UNAUTHORIZED: "0"
@@ -21,10 +21,11 @@ steps:
   displayName: "Set proxy environment variables via powershell"
 
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 6.x'
+  displayName: 'Use .NET SDK 8.0.x'
   inputs:
     packageType: sdk
-    version: '6.x'
+    version: '8.0.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: Npm@1
   displayName: 'Run npm install'
