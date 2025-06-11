@@ -8,9 +8,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: "Use .NET SDK $(dotnetSdkVersion)"
   inputs:
     packageType: 'sdk'
-    version: '8.0.x'  # Use latest .NET 8 SDK available
+    version: '6.x'  # Use latest .NET 8 SDK available
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
