@@ -5,10 +5,11 @@ pool: EMRSTGSERVER
 
 variables:
   buildConfiguration: 'Release'
-  NODE_TLS_REJECT_UNAUTHORIZED: "0"
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+  dotnetSdkVersion: '6.x'
   http_proxy: http://eproxy-emaar.goskope.com:8081
   https_proxy: http://eproxy-emaar.goskope.com:8081
+  NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
 steps:
 - powershell: |
