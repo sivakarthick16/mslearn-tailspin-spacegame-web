@@ -5,6 +5,7 @@ pool: EMRSTGSERVER
 
 variables:
   buildConfiguration: 'Release'
+  NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
 steps:
 - powershell: |
