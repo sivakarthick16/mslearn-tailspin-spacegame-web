@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/karthick1988/Space%20Game%20-%20web%20-%20Pipeline/_apis/build/status%2Fsivakarthick16.mslearn-tailspin-spacegame-web%20(13)?branchName=main)](https://dev.azure.com/karthick1988/Space%20Game%20-%20web%20-%20Pipeline/_build/latest?definitionId=13&branchName=main)
 
 # Contributing
 
