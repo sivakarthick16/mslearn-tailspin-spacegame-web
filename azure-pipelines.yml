@@ -28,7 +28,7 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: Npm@1
-  displayName: 'Run npm install'
+  displayName: 'ERun npm install'
   inputs:
     verbose: false
 
