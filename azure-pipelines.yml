@@ -30,7 +30,7 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: Npm@1
-  displayName: 'Run npm install'
+  displayName: 'Run npm install Karthick'
   inputs:
     verbose: false
 
