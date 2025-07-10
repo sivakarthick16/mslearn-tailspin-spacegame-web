@@ -1,7 +1,10 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
-  branches:
-    include:
-      - '*'
+- main
 
 pool: EMRSTGSERVER
 
@@ -23,7 +26,7 @@ steps:
   displayName: "Set proxy environment variables via powershell"
 
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 8.0.x Karthick'
+  displayName: 'Use .NET SDK 8.0.x'
   inputs:
     packageType: sdk
     version: '8.0.x'
