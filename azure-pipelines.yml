@@ -1,7 +1,5 @@
 trigger:
-  branches:
-    include:
-      - '*'  # trigger on all branches
+- '*'
 
 pool: EMRSTGSERVER
 
