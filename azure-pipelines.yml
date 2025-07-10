@@ -1,7 +1,5 @@
 trigger:
-  branches:
-    include:
-      - '*'
+- '*'
 
 pool: EMRSTGSERVER
 
@@ -30,7 +28,7 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: Npm@1
-  displayName: 'Run npm install Karthick'
+  displayName: 'Run npm install'
   inputs:
     verbose: false
 
