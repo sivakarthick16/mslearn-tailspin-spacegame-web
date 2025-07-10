@@ -21,7 +21,7 @@ steps:
   displayName: "Set proxy environment variables via powershell"
 
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 8.0.x'
+  displayName: 'Use .NET SDK 8.0.x Karthick'
   inputs:
     packageType: sdk
     version: '8.0.x'
