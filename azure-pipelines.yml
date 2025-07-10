@@ -1,5 +1,5 @@
 trigger:
-- '*'
+- models-package
 
 pool: EMRSTGSERVER
 
