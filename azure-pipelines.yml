@@ -43,7 +43,7 @@ steps:
   workingDirectory: Tailspin.SpaceGame.Web/wwwroot
 
 - task: NuGetCommand@2
-  displayName: 'Restore project dependencies'
+  displayName: 'Restore project dependencies Karthick'
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
