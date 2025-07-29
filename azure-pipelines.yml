@@ -1,13 +1,6 @@
 trigger:
 - '*'
 
-resources:
-  repositories:
-    - repository: self
-      type: github
-      name: sivakarthick16/mslearn-tailspin-spacegame-web
-      endpoint: GitHub  # <-- Name of your recreated service connection
-
 variables:
   buildConfiguration: 'Release'
 
