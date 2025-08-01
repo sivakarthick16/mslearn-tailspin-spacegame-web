@@ -68,11 +68,22 @@ stages:
         command: 'publish'
         projects: '**/*.csproj'
         publishWebProjects: false
-        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+
+        # $(Build.ArtifactStagingDirectory) is a built-in Azure DevOps variable — it’s a temporary folder on the build agent used to stage files before publishing them as artifacts.
+        # So, if $(buildConfiguration) is Release, this becomes something like: --output C:\agent\_work\1\a\Release
+        # The --output ... part simply says: “Put the published app files (and ZIP if enabled) into a temporary folder on the agent so I can publish them later as an artifact.”
+
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)' 
+
+        # If zipAfterPublish: true is set, it will also generate: C:\agent\_work\1\a\Release\<yourproject>.zip
         zipAfterPublish: true
 
+      # This .zip is then published as a build artifact in the next step, like this: This you can find in DevOps->pipeline->artifacts
+      # The reason why push files to artifact to keep files secure because Microsoft-hosted agents are destroyed after each job. ven self-hosted agents can clean up work directories based on retention settings. If you don’t publish the file, it is gone after the build finishes.
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
+
+#
 
 - stage: 'Dev'
   displayName: 'Deploy to the dev environment'
@@ -101,4 +112,10 @@ stages:
             inputs:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameDev)'
+              # $(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip points to the location on the build agent where the pipeline artifacts (ZIP files) are downloaded.
+              # When the pipeline moves to the next stage, these artifacts are automatically downloaded from the artifact storage to the agent. [C:\agent\_work\1\b -> $(Pipeline.Workspace)]
+              # The pipeline then uses these locally [ownloaded ZIP file -> $(Pipeline.Workspace)]package) for deployment tasks like publishing to a web app.
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
+              # You cannot run any tasks in pipelines without agent support. Azure DevOps runs all pipeline tasks (build, test, deploy) on agents, whether they are: Microsoft-hosted or Self-hosted (your own machine/VM).
+              # So, the agent needs the files locally to run the deployment command — like using az webapp deploy, FTP, or REST API behind the scenes.
