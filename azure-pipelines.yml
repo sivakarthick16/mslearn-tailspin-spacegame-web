@@ -5,6 +5,14 @@ variables:
   buildConfiguration: 'Release'
   releaseBranchName: 'release'
 
+schedules:
+- cron: '0 3 * * *'
+  displayName: 'Deploy every day at 3 A.M.'
+  branches:
+    include:
+    - release
+  always: false
+
 stages:
 - stage: 'Build'
   displayName: 'Build the web application'
@@ -83,11 +91,9 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-#
-
 - stage: 'Dev'
   displayName: 'Deploy to the dev environment'
-  dependsOn: Build
+  dependsOn: Build #Yes, it really checks that Build stage is completed and this stage will run only if Build completed successfully.
   condition: |
     and
     (
@@ -99,8 +105,7 @@ stages:
     pool: EMRSTGSERVER
     environment: dev
     variables:
-    - group: Release
-    
+    - group: Release # it refers variables group name that created in Azure DevOps. You can check under Pipelines -> Library
     strategy:
       runOnce:
         deploy:
@@ -119,3 +124,26 @@ stages:
 
               # You cannot run any tasks in pipelines without agent support. Azure DevOps runs all pipeline tasks (build, test, deploy) on agents, whether they are: Microsoft-hosted or Self-hosted (your own machine/VM).
               # So, the agent needs the files locally to run the deployment command — like using az webapp deploy, FTP, or REST API behind the scenes.
+
+- stage: 'Test'
+  displayName: 'Deploy to the test environment'
+  dependsOn: Dev
+  #condition: eq(variables['Build.Reason'], 'Schedule')
+  jobs:
+  - deployment: Deploy
+    pool: EMRSTGSERVER
+    environment: test
+    variables:
+    - group: 'Release'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
+            inputs:
+              azureSubscription: 'Resource Manager - Tailspin - Space Game'
+              appName: '$(WebAppNameTest)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
